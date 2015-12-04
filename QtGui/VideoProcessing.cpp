@@ -82,34 +82,34 @@ int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 
 	vector<vector<Point>> blobContourVector;
 	
-	if (link == "C:/AdaptiveCameraNetworkPack/Videos/PRG6.avi"){
-		for (vector<models::Blob>::iterator it = blobs->begin(); it != blobs->end(); it++)
-		{
-			Rect roi = boundingRect(it->getContour());
-			Mat rectBlob = (*frame)(roi);
-			Mat rectBlobClone = rectBlob.clone();
-			namedWindow("HUMAN", CV_WINDOW_NORMAL);
-			namedWindow("NON HUMAN", CV_WINDOW_NORMAL);
-			cvWaitKey(1);
-			bool temp = svmPointer->predict_SingleSVMfromMat(rectBlob);
-			if (temp)
-			{
-				imshow("HUMAN", rectBlobClone);
-				blobContourVector.push_back(it->getContour());
-			}
-			else
-			{
-				imshow("NON HUMAN", rectBlobClone);
-			}
-		}
-	}
-	else
-	{
+	//if (link == "C:/AdaptiveCameraNetworkPack/Videos/PRG6.avi"){
+	//	for (vector<models::Blob>::iterator it = blobs->begin(); it != blobs->end(); it++)
+	//	{
+	//		Rect roi = boundingRect(it->getContour());
+	//		Mat rectBlob = (*frame)(roi);
+	//		Mat rectBlobClone = rectBlob.clone();
+	//		//namedWindow("HUMAN", CV_WINDOW_NORMAL);
+	//		//namedWindow("NON HUMAN", CV_WINDOW_NORMAL);
+	//		//cvWaitKey(1);
+	//		bool temp = svmPointer->predict_SingleSVMfromMat(rectBlob);
+	//		if (temp)
+	//		{
+	//			//imshow("HUMAN", rectBlobClone);
+	//			blobContourVector.push_back(it->getContour());
+	//		}
+	//		else
+	//		{
+	//			//imshow("NON HUMAN", rectBlobClone);
+	//		}
+	//	}
+	//}
+	//else
+	//{
 		for (vector<models::Blob>::iterator it = blobs->begin(); it != blobs->end(); it++)
 		{
 			blobContourVector.push_back(it->getContour());
 		}
-	}
+	//}
 	BlobDetection blbDetection;
 	int time = static_cast<int>(cap->get(CV_CAP_PROP_POS_MSEC));
 	int mins = static_cast<int>(time / (1000 * 60));

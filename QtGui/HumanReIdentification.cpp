@@ -342,7 +342,7 @@ int mainX()
 				FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0, 0, 0), 2, CV_AA);
 
 
-			imshow("DrawnOnOri", drawnOnOriginal);
+			//imshow("DrawnOnOri", drawnOnOriginal);
 
 
 			cvWaitKey(1);
