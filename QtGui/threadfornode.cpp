@@ -75,7 +75,7 @@ void ThreadForNode::run()
 			}
 		}
 		// blob detection
-		if (_vProcessing.GPU_BlobDetection(frameToBeRaped, pMOG2, fgMaskMOG2, &blobs, scaledCutoffRegions, &blobsInCutoff) == 0)
+		if (_vProcessing.blobDetection(frameToBeRaped, pMOG2, fgMaskMOG2, &blobs, scaledCutoffRegions, &blobsInCutoff) == 0)
 		{
 			if (blobsInCutoff.size() != 0)
 			{

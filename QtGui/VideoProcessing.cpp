@@ -31,38 +31,38 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 	return (*outBlobs).size();
 }
 
-int VideoProcessing::GPU_BlobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<models::Blob> *outBlobs, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff)
-{
-	vector<vector<Point>> contours;
-	gpu::GpuMat o_frame_gpu;
-
-	//scale and check processing time
-	unsigned long AAtime = 0, BBtime = 0;
-	float scaleX = float(frame.size().width) / RWIDTH;
-	float scaleY = float(frame.size().height) / RHEIGHT;
-
-	contours = blbDetect.GPU_DetectContours(frame, o_frame_gpu);
-
-	//Scale 
-	if (cutOffRegions.size() == 0)
-	{
-		for each (vector<Point> con in contours)
-		{
-			if (blbDetect.isQualifyingContour(con))
-				(*outBlobs).push_back(models::Blob(con));
-		}
-	}
-	else
-	{
-		for each (vector<Point> con in contours) 
-		{
-			if (blbDetect.isQualifyingContour(con, cutOffRegions, blobsInCutoff))
-				(*outBlobs).push_back(models::Blob(con));
-		}
-	}
-
-	return (*outBlobs).size();
-}
+//int VideoProcessing::GPU_BlobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<models::Blob> *outBlobs, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff)
+//{
+//	vector<vector<Point>> contours;
+//	gpu::GpuMat o_frame_gpu;
+//
+//	//scale and check processing time
+//	unsigned long AAtime = 0, BBtime = 0;
+//	float scaleX = float(frame.size().width) / RWIDTH;
+//	float scaleY = float(frame.size().height) / RHEIGHT;
+//
+//	contours = blbDetect.GPU_DetectContours(frame, o_frame_gpu);
+//
+//	//Scale 
+//	if (cutOffRegions.size() == 0)
+//	{
+//		for each (vector<Point> con in contours)
+//		{
+//			if (blbDetect.isQualifyingContour(con))
+//				(*outBlobs).push_back(models::Blob(con));
+//		}
+//	}
+//	else
+//	{
+//		for each (vector<Point> con in contours) 
+//		{
+//			if (blbDetect.isQualifyingContour(con, cutOffRegions, blobsInCutoff))
+//				(*outBlobs).push_back(models::Blob(con));
+//		}
+//	}
+//
+//	return (*outBlobs).size();
+//}
 
 
 int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs, VideoCapture *cap, string link, SVM__Class* svmPointer) 
