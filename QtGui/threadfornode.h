@@ -49,6 +49,7 @@ public:
 	QLabel* releventUiLable;
 	vector<Point> cutoffRegion;
 	vector<vector<Point>> blobsInCutoff;
+	Connection* mysqlConnection;
 
 signals:
 	void sendFrameToMain(QImage outImage, ThreadForNode* thread);

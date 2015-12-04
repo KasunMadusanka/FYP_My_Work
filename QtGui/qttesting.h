@@ -7,6 +7,7 @@
 #include <iostream>
 #include "threadfornode.h"
 #include "svm__class.h"
+#include "Logger.h"
 
 class QtTesting : public QMainWindow
 {

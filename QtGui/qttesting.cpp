@@ -9,6 +9,14 @@ QtTesting::QtTesting(QWidget *parent)
 	graph::Graph _graph = graph::Graph();
 	_graph.initGraph();
 	svmCam.load_svm("camera6.xml");
+	MySQL_Driver *driver = sql::mysql::get_mysql_driver_instance();
+	Connection* mysqlConnection = driver->connect("tcp://127.0.0.1:3306", "root", "root");
+	ProfileHits* pLogger = new ProfileHits(mysqlConnection);
+	pLogger->initDB();
+	delete pLogger;
+	pLogger = NULL;
+	delete mysqlConnection;
+	mysqlConnection = NULL;
 
 	vector<graph::Node> nodes = _graph.getAllNodes();
 
@@ -23,6 +31,8 @@ QtTesting::QtTesting(QWidget *parent)
 		thread->mutex = &mutex;
 		thread->svmPointer = &svmCam;
 
+		MySQL_Driver *driver = sql::mysql::get_mysql_driver_instance();
+		thread->mysqlConnection = driver->connect("tcp://127.0.0.1:3306", "root", "root");
 		if (it->nodeId == "C008")
 		{
 			thread->cutoffRegion.push_back(Point(0, 0));

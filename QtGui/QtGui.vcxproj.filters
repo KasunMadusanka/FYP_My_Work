@@ -71,9 +71,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_threadfornode.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="threadfornode.cpp">
-      <Filter>Source Files\Threads</Filter>
-    </ClCompile>
     <ClCompile Include="ProfileTransferObj.cpp">
       <Filter>Source Files\Models</Filter>
     </ClCompile>
@@ -112,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="svm__class.cpp">
       <Filter>Source Files\SVM_HOG</Filter>
+    </ClCompile>
+    <ClCompile Include="threadfornode.cpp">
+      <Filter>Source Files\Threads</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,9 @@
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
+
+#include "QtGui\qimage.h"
+#include "QtGui\qpainter.h"
 using namespace std;
 using namespace sql;
 using namespace mysql;
@@ -30,7 +33,9 @@ class VideoGeneration : public QMainWindow
 public:
 	VideoGeneration(QWidget *parent = 0);
 	~VideoGeneration();
-
+	MySQL_Driver *driver;
+	Connection *con;
+	Statement *stmt;
 public slots:
 	void on_generateVideoPushButton_clicked();
 

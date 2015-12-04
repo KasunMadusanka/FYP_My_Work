@@ -36,7 +36,7 @@ public:
 	bool isQualifyingContour(vector<Point> contour);
 	bool isQualifyingContour(vector<Point> contour, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff);
 	vector<vector<Point>> detectEnclosingConvexHull(vector< vector< Point> >  contours); 
-	vector<BlobId> matchProfilesWithBlobs(vector< vector< Point> > contours, string absoluteTime, string cameraNode);
+	vector<BlobId> matchProfilesWithBlobs(vector< vector< Point> > contours, string absoluteTime, string cameraNode, Connection* mysqlConnection);
 
 
 	BlobDetection();

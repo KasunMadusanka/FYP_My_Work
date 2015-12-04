@@ -140,6 +140,7 @@
     <ClCompile Include="caviar_hits.cpp" />
     <ClCompile Include="dbaccesslayer.cpp" />
     <ClCompile Include="humanhits.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="momentstructures2.cpp" />
     <ClCompile Include="systemdata.cpp" />
   </ItemGroup>
@@ -148,6 +149,7 @@
     <ClInclude Include="dbaccesslayer.h" />
     <ClInclude Include="dbaccesslayer_global.h" />
     <ClInclude Include="humanhits.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="momentstructures2.h" />
     <ClInclude Include="systemdata.h" />
   </ItemGroup>

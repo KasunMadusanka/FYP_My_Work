@@ -121,7 +121,7 @@ void ThreadForNode::run()
 		if (!(unidentifiedBlobs.empty())) // unindentified >>> human
 		{
 			// done through hardcoded function
-			_vProcessing.humanDetection(&unidentifiedBlobs, &frameToBeRaped, &humanBlobs, &cap, this->videoLink, svmPointer);
+			_vProcessing.humanDetection(&unidentifiedBlobs, &frameToBeRaped, &humanBlobs, &cap, this->videoLink, svmPointer, mysqlConnection);
 		}
 		
 		if (!(humanBlobs.empty())) // human >>> trackinghuman
@@ -317,7 +317,7 @@ void ThreadForNode::mockFunction(vector<models::Blob> *blobs, vector<models::Hum
 	while (getline(ss, item, '/')) {
 		tokens.push_back(item);
 	}
-	vector<BlobId> profiledBlobs = blbDetection.matchProfilesWithBlobs(blobContourVector, timeStr, tokens[tokens.size()-1]);
+	vector<BlobId> profiledBlobs = blbDetection.matchProfilesWithBlobs(blobContourVector, timeStr, tokens[tokens.size()-1],mysqlConnection);
 	for (int i = 0; i < profiledBlobs.size(); i++)
 	{
 		HumanBlob hb = HumanBlob(blobs->at(i));

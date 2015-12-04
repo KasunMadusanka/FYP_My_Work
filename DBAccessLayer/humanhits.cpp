@@ -84,20 +84,23 @@ void HumanHits::addHumanHit(string hitId, string regionId, MomentAverage *moment
 HumanHits::HumanHits()
 {
 	
-	
+	driver = sql::mysql::get_mysql_driver_instance();
+	con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
+
 
 }
 
-HumanHits::HumanHits(MySQL_Driver *driver, Connection *con)
+HumanHits::HumanHits(Connection *con)
 {
-	driver = driver;
-	con = con;
+	this->con = con;
+	this->stmt = this->con->createStatement();
 
 }
 
 HumanHits::~HumanHits()
 {
-
+	this->driver = NULL;
+	this->con = NULL;
 }
 
 ///TO BE DELETED! DO NOT INCLUDE UTILITY FUNCTION!!!!!!
@@ -116,14 +119,10 @@ vector<string> stringSplit(string s, string delimiter = " "){
 	splittedStrings.push_back(s);
 	return splittedStrings;
 }
-///TO BE DELETED! DO NOT INCLUDE!!!!!!
+
 vector<Profile> HumanHits::getAllProfilesInSecond(string absoluteTime, string cameraNode)
 {
 	vector<Profile> profiles;
-	driver = sql::mysql::get_mysql_driver_instance();
-	con = driver->connect("tcp://127.0.0.1:3306", "root", "root");
-
-	stmt = con->createStatement();
 	stmt->execute("USE camera");
 	if (cameraNode == "PRG1.avi")
 		cameraNode = "camera_node_1";
@@ -157,8 +156,7 @@ vector<Profile> HumanHits::getAllProfilesInSecond(string absoluteTime, string ca
 		profiles.push_back(prf);
 	}
 
-	delete con;
-	delete stmt;
+
 
 	return profiles;
 
