@@ -5,7 +5,7 @@
 
 VideoProcessing::VideoProcessing(){}
 
-int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<models::Blob> *outBlobs, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff)
+int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<RowBlob> *outBlobs, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff)
 {
 	vector<vector<Point>> contours;
 	contours = blbDetect.detectContours(frame, pMOG2, mask);
@@ -14,7 +14,7 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 		for each (vector<Point> con in contours)
 		{
 			if (blbDetect.isQualifyingContour(con))
-				(*outBlobs).push_back(models::Blob(con));
+				(*outBlobs).push_back(RowBlob(con));
 		}
 	}
 	else
@@ -22,7 +22,7 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 		for each (vector<Point> con in contours)
 		{
 			if (blbDetect.isQualifyingContour(con, cutOffRegions, blobsInCutoff))
-				(*outBlobs).push_back(models::Blob(con));
+				(*outBlobs).push_back(RowBlob(con));
 		}
 	}
 	/*if (outBlobs->size() > 0)
@@ -31,7 +31,7 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 	return (*outBlobs).size();
 }
 
-//int VideoProcessing::GPU_BlobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<models::Blob> *outBlobs, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff)
+//int VideoProcessing::GPU_BlobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, Mat mask, vector<RowBlob> *outBlobs, vector<Point> cutOffRegions, vector<vector<Point>>* blobsInCutoff)
 //{
 //	vector<vector<Point>> contours;
 //	gpu::GpuMat o_frame_gpu;
@@ -49,7 +49,7 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 //		for each (vector<Point> con in contours)
 //		{
 //			if (blbDetect.isQualifyingContour(con))
-//				(*outBlobs).push_back(models::Blob(con));
+//				(*outBlobs).push_back(RowBlob(con));
 //		}
 //	}
 //	else
@@ -57,7 +57,7 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 //		for each (vector<Point> con in contours) 
 //		{
 //			if (blbDetect.isQualifyingContour(con, cutOffRegions, blobsInCutoff))
-//				(*outBlobs).push_back(models::Blob(con));
+//				(*outBlobs).push_back(RowBlob(con));
 //		}
 //	}
 //
@@ -65,14 +65,14 @@ int VideoProcessing::blobDetection(Mat frame, Ptr<BackgroundSubtractor> pMOG2, M
 //}
 
 
-int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vector<models::HumanBlob> *outHumanBlobs, VideoCapture *cap, string link, SVM__Class* svmPointer, Connection* mySqlConnection)
+int VideoProcessing::humanDetection(vector<RowBlob> *blobs, Mat *frame, vector<HumanBlob> *outHumanBlobs, VideoCapture *cap, string link, SVM__Class* svmPointer, Connection* mySqlConnection)
 {
 
 
 	// uncomment for senior dataset ///////////////////////////////////////
-	/*for (vector<models::Blob>::iterator i = blobs->begin(); i != blobs->end(); i++)
+	/*for (vector<RowBlob>::iterator i = blobs->begin(); i != blobs->end(); i++)
 	{
-		models::HumanBlob hb = models::HumanBlob(*i);
+		HumanBlob hb = HumanBlob(*i);
 		hb.profileID = "NULL";
 		outHumanBlobs->push_back(hb);
 	}
@@ -83,7 +83,7 @@ int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 	vector<vector<Point>> blobContourVector;
 	
 	//if (link == "C:/AdaptiveCameraNetworkPack/Videos/PRG6.avi"){
-	//	for (vector<models::Blob>::iterator it = blobs->begin(); it != blobs->end(); it++)
+	//	for (vector<RowBlob>::iterator it = blobs->begin(); it != blobs->end(); it++)
 	//	{
 	//		Rect roi = boundingRect(it->getContour());
 	//		Mat rectBlob = (*frame)(roi);
@@ -105,7 +105,7 @@ int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 	//}
 	//else
 	//{
-		for (vector<models::Blob>::iterator it = blobs->begin(); it != blobs->end(); it++)
+		for (vector<RowBlob>::iterator it = blobs->begin(); it != blobs->end(); it++)
 		{
 			blobContourVector.push_back(it->getContour());
 		}
@@ -133,7 +133,7 @@ int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 	for (int i = 0; i < profiledBlobs.size(); i++)
 	{
 
-		models::HumanBlob hb = models::HumanBlob(models::Blob(blobContourVector[i]));
+		HumanBlob hb = HumanBlob(RowBlob(blobContourVector[i]));
 		hb.profileID = profiledBlobs[i].Id;
 
 		//Recording profile hit in db
@@ -153,85 +153,82 @@ int VideoProcessing::humanDetection(vector<models::Blob> *blobs, Mat *frame, vec
 
 
 void VideoProcessing::dataAssociation(
-	vector<models::Blob> *blobs,
-	vector<models::HumanBlob> *trackingHumanBlobs,
-	vector<models::Blob> *outUnidentifiedBlobs,
-	vector<models::MissingHumanBlob> *outMissingHumanBlobs)
+	vector<HumanBlob> *blobs,
+	vector<HumanBlob> *trackingHumanBlobs,
+	vector<MissingHumanBlob> *outMissingHumanBlobs)
 {
-	vector<Mat> Predicted;
-	vector<Point2f> Detected;
-	vector<vector<int>> CostMetrix;
-
-	for (vector<models::Blob>::iterator i = blobs->begin(); i != blobs->end(); i++)
+	
+	/*for (vector<RowBlob>::iterator i = blobs->begin(); i != blobs->end(); i++)
 	{
 		outUnidentifiedBlobs->push_back(*i);
+	}*/
+
+
+	for (vector<HumanBlob>::iterator t = trackingHumanBlobs->begin(); t != trackingHumanBlobs->end(); t++)
+	{
+		double range = sqrt(pow(t->dx, 2) + pow(t->dy, 2));
+		bool foundMatch = false;
+		vector<HumanBlob>::iterator temp;
+		double minDis = 2*range;
+		for (vector<HumanBlob>::iterator b = blobs->begin(); b != blobs->end(); b++)
+		{
+			Point detected = b->blob.getmassCenter();
+			double xdis = std::abs(t->predictedPoint.x - detected.x);
+			double ydis = std::abs(t->predictedPoint.y - detected.y);
+			double distPredDet = sqrt(pow(xdis, 2) + pow(ydis, 2));
+			if (distPredDet <= range && distPredDet < minDis)
+			{
+				minDis = distPredDet;
+				*temp = *b;
+				foundMatch = true;
+			}
+		}
+		if (foundMatch)
+		{
+			t->blob.setContour(temp->blob.getContour());
+			t->addCenterPoint(t->blob.getmassCenter());
+			blobs->erase(temp);
+		}
+		else
+		{
+			MissingHumanBlob mhb = MissingHumanBlob(*t);
+			mhb.missedTime += 1;
+			outMissingHumanBlobs->push_back(mhb);
+			trackingHumanBlobs->erase(t);
+		}
 	}
+
 
 }
 
 void VideoProcessing::checkInProfiles(
-	vector<models::HumanBlob> *humanList,
-	vector<models::HumanBlob> *possibleList,
-	vector<models::MissingHumanBlob> *missingList,
-	vector<models::HumanBlob> *trackingList)
+	vector<HumanBlob> *humanList,
+	vector<HumanBlob> *possibleList,
+	vector<MissingHumanBlob> *missingList,
+	vector<HumanBlob> *trackingList)
 {
 	// first check in possible profile list if not find in missing list
 	// update the tracking list and possible list and missing list
 	// send unidentified human list
 
-	// by using feature vectors
+	// by using FEATURE VECTORS
 
-	for (vector<models::HumanBlob>::iterator h = humanList->begin(); h != humanList->end(); h++)
-	{
-		for (vector<models::HumanBlob>::iterator p = possibleList->begin(); p != possibleList->end(); p++)
-		{
-			if ((*h) == (*p))
-			{
-				trackingList->push_back(models::HumanBlob(*p));
-				possibleList->erase(p);
-				humanList->erase(h);
-				// send message to main profile set to flush from others
-			}
-		}
-	}
-	for (vector<models::HumanBlob>::iterator h = humanList->begin(); h != humanList->end(); h++)
-	{
-		for (vector<models::MissingHumanBlob>::iterator m = missingList->begin(); m != missingList->end(); m++)
-		{
-			if ((*h) == m->humanBlob)
-			{
-				trackingList->push_back(models::MissingHumanBlob(*m).humanBlob);
-				missingList->erase(m);
-				humanList->erase(h);
-			}
-		}
-	}
-
-	// update missing list
-	for (vector<models::MissingHumanBlob>::iterator m = missingList->begin(); m != missingList->end(); m++)
-	{
-		m->missedTime++;
-		if (m->missedTime > 10)
-		{
-			// give warning to main that one missed for long time
-			missingList->erase(m);
-		}
-	}
+	
 
 }
 
-void VideoProcessing::initTrackingObject(vector<models::HumanBlob> *humanList, vector<models::HumanBlob> *trackingList)
+void VideoProcessing::initTrackingObject(vector<HumanBlob> *humanList, vector<HumanBlob> *trackingList)
 {
 	// create a central profile
 	// set profile id to human blob and push back to tracking blob
 	trackingList->clear();
-	for (vector<models::HumanBlob>::iterator i = humanList->begin(); i != humanList->end(); i++)
+	for (vector<HumanBlob>::iterator i = humanList->begin(); i != humanList->end(); i++)
 	{
 		trackingList->push_back(*i);
 	}
 }
 
-void VideoProcessing::kalmanCorrectAndPredict(vector<models::HumanBlob> *trackingList)
+void VideoProcessing::kalmanCorrectAndPredict(vector<HumanBlob> *trackingList)
 {
 	Mat_<float> mesurement(2, 1);
 	mesurement.setTo(Scalar(0));
@@ -250,9 +247,5 @@ void VideoProcessing::kalmanCorrectAndPredict(vector<models::HumanBlob> *trackin
 	}
 }
 
-void VideoProcessing::informAdjecentNodes(vector<graph::ExitPoint> *exitsList, vector<models::HumanBlob> *trackingList)
-{
-	
-}
 
 VideoProcessing::~VideoProcessing(){}

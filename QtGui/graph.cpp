@@ -21,31 +21,71 @@ bool Graph::isConfigured()
 
 int Graph::initGraph()
 {
-	vector<graph::ExitPoint> exitPointsList{ { 8, make_pair(20, 20), make_pair(50, 100) } };
+	//graph::ExitPoint p1; p1.nodeId = "C002";
+	//graph::ExitPoint p2; p2.nodeId = "C004";
+	//graph::ExitPoint p3; p3.nodeId = "C005";
+	//vector<graph::ExitPoint> xp1{p1, p2, p3};
+	//addNode(Node("C001", "C:/AdaptiveCameraNetworkPack/Videos/PRG1.avi", xp1, 5));
+	
+	graph::ExitPoint p4; p4.nodeId = "C001";
+	graph::ExitPoint p5; p5.nodeId = "C003";
+	graph::ExitPoint p6; p6.nodeId = "C004";
+	vector<graph::ExitPoint> xp2{ p4, p5, p6 };
+	addNode(Node("C002", "C:/AdaptiveCameraNetworkPack/Videos/PRG6.avi", xp2, 0));
+	
+	//graph::ExitPoint p7; p7.nodeId = "C002";
+	//graph::ExitPoint p8; p8.nodeId = "C004";
+	//graph::ExitPoint p9; p9.nodeId = "C006";
+	//vector<graph::ExitPoint> xp3{ p7, p8, p9 };
+	//addNode(Node("C003", "C:/AdaptiveCameraNetworkPack/Videos/PRG7.avi", xp3, 85));
+	//
+	//graph::ExitPoint p10; p10.nodeId = "C001";
+	//graph::ExitPoint p11; p11.nodeId = "C002";
+	//graph::ExitPoint p12; p12.nodeId = "C003";
+	//graph::ExitPoint p13; p13.nodeId = "C005";
+	//graph::ExitPoint p14; p14.nodeId = "C006";
+	//graph::ExitPoint p15; p15.nodeId = "C007";
+	//graph::ExitPoint p16; p16.nodeId = "C008";
+	//vector<graph::ExitPoint> xp8{ p10, p11, p12, p13, p14, p15, p16 };
+	//addNode(Node("C004", "C:/AdaptiveCameraNetworkPack/Videos/PRG14.avi", xp8, 0));
+	//
+	//graph::ExitPoint p17; p17.nodeId = "C001";
+	//graph::ExitPoint p18; p18.nodeId = "C004";
+	//graph::ExitPoint p19; p19.nodeId = "C007";
+	//vector<graph::ExitPoint> xp4{ p10, p11, p12, p13, p14, p15, p16 };
+	//addNode(Node("C005", "C:/AdaptiveCameraNetworkPack/Videos/PRG22.avi", xp4, 15));
+	//
+	//graph::ExitPoint p20; p20.nodeId = "C003";
+	//graph::ExitPoint p21; p21.nodeId = "C008";
+	//vector<graph::ExitPoint> xp5{ p20, p21 };
+	//addNode(Node("C006", "C:/AdaptiveCameraNetworkPack/Videos/PRG23.avi", xp5, 0));
+	//
+	//graph::ExitPoint p22; p22.nodeId = "C004";
+	//graph::ExitPoint p23; p23.nodeId = "C005";
+	//graph::ExitPoint p24; p24.nodeId = "C008";
+	//vector<graph::ExitPoint> xp6{ p22, p23,p24 };
+	//addNode(Node("C007", "C:/AdaptiveCameraNetworkPack/Videos/PRG28.avi", xp6, 70));
+	
+	//graph::ExitPoint p25; p25.nodeId = "C004";
+	//graph::ExitPoint p26; p26.nodeId = "C006";
+	//graph::ExitPoint p27; p27.nodeId = "C007";
+	//vector<graph::ExitPoint> xp7{ p25, p26, p27 };	
+	//addNode(Node("C008", "C:/AdaptiveCameraNetworkPack/Videos/PRG29.avi", xp7, 115));
 
-	addNode(Node("C001", "C:/AdaptiveCameraNetworkPack/Videos/PRG1.avi", exitPointsList, 5));
-	addNode(Node("C002", "C:/AdaptiveCameraNetworkPack/Videos/PRG6.avi", exitPointsList, 0));
-	addNode(Node("C003", "C:/AdaptiveCameraNetworkPack/Videos/PRG7.avi", exitPointsList, 85));
-	addNode(Node("C004", "C:/AdaptiveCameraNetworkPack/Videos/PRG14.avi", exitPointsList, 0));
-	addNode(Node("C005", "C:/AdaptiveCameraNetworkPack/Videos/PRG22.avi", exitPointsList, 15));
-	addNode(Node("C006", "C:/AdaptiveCameraNetworkPack/Videos/PRG23.avi", exitPointsList, 0));
-	addNode(Node("C007", "C:/AdaptiveCameraNetworkPack/Videos/PRG28.avi", exitPointsList, 70));
-	addNode(Node("C008", "C:/AdaptiveCameraNetworkPack/Videos/PRG29.avi", exitPointsList, 115));
+	//addNode(Node("C001", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/A.mov", xp1, 0));
+	//addNode(Node("C002", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/B.mov", xp1, 0));
+	//addNode(Node("C003", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/C.mov", xp1, 0));
+	//addNode(Node("C004", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/D.mov", xp1, 0));
+	//addNode(Node("C005", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/E.mov", xp1, 0));
+	//addNode(Node("C006", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/F.mov", xp1, 0));
+	//addNode(Node("C007", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/G.mov", xp1, 0));
+	//addNode(Node("C008", "C:/AdaptiveCameraNetworkPack/Videos/SVideo/H.mov", xp1, 0));
 
-	//addNode(Node("C001", "C:/Users/niro273/Desktop/seniors-videos/video/1.mov", exitPointsList, 0));
-	//addNode(Node("C002", "C:/Users/niro273/Desktop/seniors-videos/video/2.mov", exitPointsList, 0));
-	//addNode(Node("C003", "C:/Users/niro273/Desktop/seniors-videos/video/3.mov", exitPointsList, 0));
-	//addNode(Node("C004", "C:/Users/niro273/Desktop/seniors-videos/video/4.mov", exitPointsList, 0));
-	//addNode(Node("C005", "C:/Users/niro273/Desktop/seniors-videos/video/5.mov", exitPointsList, 0));
-	//addNode(Node("C006", "C:/Users/niro273/Desktop/seniors-videos/video/6.mov", exitPointsList, 0));
-	//addNode(Node("C007", "C:/Users/niro273/Desktop/seniors-videos/video/7.mov", exitPointsList, 0));
-	//addNode(Node("C008", "C:/Users/niro273/Desktop/seniors-videos/video/9.mov", exitPointsList, 0));
-
-	addNeighbour("C001", "C002", 8, 1);
+	/*addNeighbour("C001", "C002", 8, 1);
 	addNeighbour("C002", "C001", 2, 1);
 
 	addNeighbour("C001", "C003", 6, 1);
-	addNeighbour("C003", "C001", 4, 1);
+	addNeighbour("C003", "C001", 4, 1);*/
 
 	qDebug() << "Graph initiated. \n";
 	return Nodes.size();

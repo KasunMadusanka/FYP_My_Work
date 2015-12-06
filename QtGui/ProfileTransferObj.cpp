@@ -1,12 +1,11 @@
-#include "Models.h"
-
-using namespace models;
-
+#include "profiletransferobj.h"
 
 ProfileTransferObj::ProfileTransferObj()
 {
+
 }
 
 ProfileTransferObj::~ProfileTransferObj()
 {
+
 }

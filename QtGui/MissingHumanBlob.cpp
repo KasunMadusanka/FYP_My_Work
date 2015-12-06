@@ -1,14 +1,17 @@
-#include "Models.h"
-#include <ctime>
+#include "missinghumanblob.h"
 
-using namespace models;
+MissingHumanBlob::MissingHumanBlob()
+{
 
-MissingHumanBlob::MissingHumanBlob(){};
+}
 
-MissingHumanBlob::MissingHumanBlob(models::HumanBlob superHumanBlob)
+MissingHumanBlob::~MissingHumanBlob()
+{
+
+}
+
+MissingHumanBlob::MissingHumanBlob(HumanBlob superHumanBlob)
 {
 	humanBlob = superHumanBlob;
 	missedTime = 1;
 }
-
-MissingHumanBlob::~MissingHumanBlob(){}

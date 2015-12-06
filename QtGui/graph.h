@@ -9,7 +9,14 @@
 #include "QtCore\qthread.h"
 #include "QtGui\qimage.h"
 
+#include <opencv2\core\core.hpp>
+#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2\video\tracking.hpp>
+#include <opencv2\video\background_segm.hpp>
+#include <opencv2\highgui\highgui.hpp>
+
 using namespace std;
+using namespace cv;
 
 namespace graph{
 	class Graph;
@@ -17,9 +24,8 @@ namespace graph{
 
 	struct ExitPoint
 	{
-		int sector;
-		pair<int, int> topLeftPoint;
-		pair<int, int> bottomRightPoint;
+		vector<Point> poly;
+		string nodeId;
 	};
 
 	class Graph

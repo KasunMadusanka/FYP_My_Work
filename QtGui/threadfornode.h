@@ -21,10 +21,7 @@
 #include "QtCore\qwaitcondition.h"
 #include "svm__class.h"
 
-using namespace models;
 using namespace cv;
-
-class MessagePasser;
 
 class ThreadForNode : public QThread
 {
@@ -34,9 +31,8 @@ public:
 	ThreadForNode();
 	~ThreadForNode();
 	void run();
-	void updateProfileList(ProfileTransferObj profile);
 	void waitForAcknowledge();
-	void mockFunction(vector<models::Blob> *blobs, vector<models::HumanBlob> *trackingHumanBlobs, VideoCapture *cap);
+	void mockFunction(vector<RowBlob> *blobs, vector<HumanBlob> *trackingHumanBlobs, VideoCapture *cap);
 
 	SVM__Class* svmPointer;
 	string videoLink; // temp
@@ -53,15 +49,34 @@ public:
 
 signals:
 	void sendFrameToMain(QImage outImage, ThreadForNode* thread);
-	void sendProfileToNode(ProfileTransferObj profile, ThreadForNode* nodeThread);
+	void sendProfileToNode(HumanBlob* profile, QString sendingNodeId);
 	void sendFinishedToMain();
+	void sendProfileToMain(QString cameraNode, HumanBlob* humanBlob, long time);
+	void sendLogCentralProfiles(QString pId, QString nId, long time);
+	void requestToFlushFromOthers(QString nId, QString pId);
+
+	void flushProfile(QString pId);
+	void receiveProfile(HumanBlob* profile);
+
+	public slots:
+	void flushAllPossible(QString pId);
+	void updateProfileList(HumanBlob* profile);
 
 private:
 	void resizeContour(vector<Point> contour, double xScalar, double yScalar, vector<Point>* cnt);
 	void drawBlobsAndWriteInFrame(Mat frame, vector<vector<Point>>* blobs, Scalar color, string writing, Scalar writingColor);
-	MessagePasser* msgPasser;
+	void informAdjecentNodes();
+	void updateMomentVector();
+	void checkInProfiles();
+	void ThreadForNode::dataAssociation(VideoCapture* cap);
+	bool isInExitPoint(Point cp, graph::ExitPoint* ep);
 	Mat frame;
 	Mat frameToBeRaped;
+	vector<HumanBlob> trackingHumanBlobs, possibleProfileList;
+	vector<MissingHumanBlob> missingHumanBlobs;
+	vector<RowBlob> blobs;
+	vector<HumanBlob> humanBlobs;
+	int profileCount = 0;
 };
 
 #endif // THREADFORNODE_H

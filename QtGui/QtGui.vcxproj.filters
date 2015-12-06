@@ -48,20 +48,11 @@
     <Filter Include="Source Files\SVM_HOG">
       <UniqueIdentifier>{a3e0bb35-759c-440a-a198-c9faf5827f49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{599a3167-dec6-4535-9cbe-8d5a2095871b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Blob.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="HumanBlob.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="MissingHumanBlob.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="TrackingObject.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
     <ClCompile Include="VideoProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,10 +62,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_threadfornode.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="ProfileTransferObj.cpp">
-      <Filter>Source Files\Models</Filter>
-    </ClCompile>
-    <ClCompile Include="messagepasser.cpp">
+    <ClCompile Include="threadfornode.cpp">
       <Filter>Source Files\Threads</Filter>
     </ClCompile>
     <ClCompile Include="graph.cpp">
@@ -85,12 +73,6 @@
     </ClCompile>
     <ClCompile Include="mainGUI.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_messagepasser.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_messagepasser.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_qttesting.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -110,8 +92,26 @@
     <ClCompile Include="svm__class.cpp">
       <Filter>Source Files\SVM_HOG</Filter>
     </ClCompile>
-    <ClCompile Include="threadfornode.cpp">
-      <Filter>Source Files\Threads</Filter>
+    <ClCompile Include="rowblob.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="humanblob.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="missinghumanblob.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="centralprofile.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="possibleprofile.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="profilelog.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="profiletransferobj.cpp">
+      <Filter>Source Files\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,27 +124,39 @@
     <CustomBuild Include="threadfornode.h">
       <Filter>Header Files\Threads</Filter>
     </CustomBuild>
-    <CustomBuild Include="messagepasser.h">
-      <Filter>Header Files\Threads</Filter>
-    </CustomBuild>
     <CustomBuild Include="qttesting.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="qttesting.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="rowblob.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="humanblob.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="missinghumanblob.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="centralprofile.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="possibleprofile.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="profilelog.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
+    <CustomBuild Include="profiletransferobj.h">
+      <Filter>Header Files\Models</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Models.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="VideoProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_qtgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -155,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="hogdescriptor_class.h">
       <Filter>Header Files\SVM_HOG</Filter>
+    </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

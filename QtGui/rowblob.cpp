@@ -1,36 +1,40 @@
-#include "Models.h"
+#include "rowblob.h"
 
-using namespace models;
+RowBlob::RowBlob()
+{
 
-Blob::Blob(){};
+}
 
-Blob::Blob(vector<Point> _contour)
+RowBlob::~RowBlob()
+{
+
+}
+
+RowBlob::RowBlob(vector<Point> _contour)
 {
 	contour = _contour;
 	mu = moments(contour, false);
 	mc = Point2f(mu.m10 / mu.m00, mu.m01 / mu.m00);
 }
 
-vector<Point> Blob::getContour()
+vector<Point> RowBlob::getContour()
 {
 	return contour;
 }
 
-void Blob::setContour(vector<Point> _contour)
+void RowBlob::setContour(vector<Point> _contour)
 {
 	contour = _contour;
 	mu = moments(contour, false);
 	mc = Point2f(mu.m10 / mu.m00, mu.m01 / mu.m00);
 }
 
-Moments Blob::getMoments()
+Moments RowBlob::getMoments()
 {
 	return mu;
 }
 
-Point2f Blob::getmassCenter()
+Point2f RowBlob::getmassCenter()
 {
 	return mc;
 }
-
-Blob::~Blob(){}

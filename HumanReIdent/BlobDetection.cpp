@@ -10,7 +10,6 @@
 
 BlobDetection::BlobDetection()
 {
-<<<<<<< HEAD
 	//pMOG2_g = gpu::MOG2_GPU(30);
 	//pMOG2_g.history = 300; //300;
 	//pMOG2_g.varThreshold = 15; //64; //128; //64; //32;//; 
@@ -18,15 +17,6 @@ BlobDetection::BlobDetection()
 	//
 	//gpurgb2 = vector< gpu::GpuMat>(3);
 	//gpurgb = vector< gpu::GpuMat>(3);
-=======
-	pMOG2_g = gpu::MOG2_GPU();
-	pMOG2_g.history = 300; //300;
-	pMOG2_g.varThreshold = 64; //64; //128; //64; //32;//; 
-	pMOG2_g.bShadowDetection = true; // true;//
-
-	gpurgb2 = vector< gpu::GpuMat>(3);
-	gpurgb = vector< gpu::GpuMat>(3);
->>>>>>> c80f29b0f31ac80638ec54a7f8f3a8075d111c6c
 
 	element = getStructuringElement(MORPH_RECT, Size(9, 9), Point(4, 4));
 }
@@ -40,32 +30,32 @@ vector< vector< Point> > BlobDetection::detectContours(Mat frame, Ptr< Backgroun
 {
 	vector< vector< Point> > result;
 
-	cvNamedWindow("Original"	, CV_WINDOW_NORMAL);
-	cvNamedWindow("Blurred"		, CV_WINDOW_NORMAL);
-	//cvNamedWindow("fgMaskMOG2X"	, CV_WINDOW_NORMAL);
-	cvNamedWindow("Background Subtracted", CV_WINDOW_NORMAL);
-	cvNamedWindow("Shadow Removed"	, CV_WINDOW_NORMAL);
+	//cvNamedWindow("Original"	, CV_WINDOW_NORMAL);
+	//cvNamedWindow("Blurred"		, CV_WINDOW_NORMAL);
+	////cvNamedWindow("fgMaskMOG2X"	, CV_WINDOW_NORMAL);
+	//cvNamedWindow("Background Subtracted", CV_WINDOW_NORMAL);
+	//cvNamedWindow("Shadow Removed"	, CV_WINDOW_NORMAL);
 
 	Mat fgMaskMOG2X = fgMaskMOG2.clone(); 
 
 	Mat ContourImg; 
 	Ptr< BackgroundSubtractor> pMOG2 = pMOG2Pointer; 
 	Mat element = getStructuringElement(MORPH_RECT, Size(7, 7), Point(3, 3));
-	imshow("Original", frame);
+	//imshow("Original", frame);
 
 	//PreProcess
 	blur(frame, frame, Size(4, 4));
-	imshow("Blurred", frame);
+	//imshow("Blurred", frame);
 
 	//Background subtraction
 	pMOG2->operator()(frame, fgMaskMOG2X, -1);
 	//imshow("fgMaskMOG2X", frame);
 
 	morphologyEx(fgMaskMOG2X, frame, CV_MOP_CLOSE, element);
-	imshow("Background Subtracted", frame);
+	//imshow("Background Subtracted", frame);
 
 	threshold(frame, frame, 180, 255, CV_THRESH_BINARY);
-	imshow("Shadow Removed", frame);
+	//imshow("Shadow Removed", frame);
 
 	cvWaitKey(1);
 	ContourImg = frame.clone();
@@ -79,7 +69,6 @@ vector< vector< Point> > BlobDetection::detectContours(Mat frame, Ptr< Backgroun
 	return result;
 }
 
-<<<<<<< HEAD
 //vector<vector<Point>> BlobDetection::GPU_DetectContours(Mat o_frame, gpu::GpuMat o_frame_gpu)
 //{
 //
@@ -136,64 +125,6 @@ vector< vector< Point> > BlobDetection::detectContours(Mat frame, Ptr< Backgroun
 //
 //
 //}
-=======
-vector<vector<Point>> BlobDetection::GPU_DetectContours(Mat o_frame, gpu::GpuMat o_frame_gpu)
-{
-
-	//scale and check processing time
-	float scaleX = float(o_frame.size().width) / RWIDTH;
-	float scaleY = float(o_frame.size().height) / RHEIGHT;
-
-	unsigned long AAtime = 0, BBtime = 0;
-	const clock_t begin_time = clock(); // by niro
-
-	//get frame and upload to gpu
-	o_frame_gpu.upload(o_frame);
-
-	//resize
-	gpu::resize(o_frame_gpu, r_frame_gpu, Size(RWIDTH, RHEIGHT)); //for blob labeling
-	//AAtime = getTickCount();
-	
-	//blur red blue and green channels
-	/*gpu::split(r_frame_gpu, gpurgb);
-	gpu::blur(gpurgb[0], gpurgb2[0], Size(3, 3));
-	gpu::blur(gpurgb[1], gpurgb2[1], Size(3, 3));
-	gpu::blur(gpurgb[2], gpurgb2[2], Size(3, 3));
-	gpu::merge(gpurgb2, r_blur_gpu);*/
-	//mog
-	pMOG2_g.operator()(r_frame_gpu, Mog_Mask_g, -1);
-	Mog_Mask_g.download(Mog_Mask);
-	//mopnology
-	//gpu::morphologyEx(Mog_Mask_g, Mog_MaskMorpho_g, CV_MOP_CLOSE, element);
-	gpu::morphologyEx(Mog_Mask_g, Mog_MaskMorpho_g, CV_MOP_DILATE, element);
-	//binary
-	gpu::threshold(Mog_MaskMorpho_g, r_binary_gpu, 128, 255, CV_THRESH_BINARY);
-	
-	
-	//Blob Labeling
-	//Find contour   
-	Mat ContourImg;
-	r_binary_gpu.download(ContourImg);
-	//less blob delete   
-	vector< vector< Point> > contours;
-	findContours(ContourImg,
-		contours, // a vector of contours   
-		CV_RETR_EXTERNAL, // retrieve the external contours   
-		CV_CHAIN_APPROX_NONE); // all pixels of each contours  
-	
-	//processing time print
-	//BBtime = getTickCount();
-	//float pt = (BBtime - AAtime) / getTickFrequency();
-	//float fpt = 1 / pt;
-	//printf("gpu %.4lf / %.4lf \n", pt, fpt);
-	float time = float(clock() - begin_time) / CLOCKS_PER_SEC;
-	qDebug() << "Back ground Substraction Time in GPU" << time << " ms";// by niro
-	
-	return contours;
-
-
-}
->>>>>>> c80f29b0f31ac80638ec54a7f8f3a8075d111c6c
 
 bool BlobDetection::isQualifyingContour(vector<Point> contour)
 { 

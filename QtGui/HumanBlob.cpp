@@ -1,10 +1,16 @@
-#include "Models.h"
+#include "humanblob.h"
 
-using namespace models;
+HumanBlob::HumanBlob()
+{
 
-HumanBlob::HumanBlob(){};
+}
 
-HumanBlob::HumanBlob(models::Blob superBlob)
+HumanBlob::~HumanBlob()
+{
+
+}
+
+HumanBlob::HumanBlob(RowBlob superBlob)
 {
 	blob = superBlob;
 
@@ -45,4 +51,9 @@ bool HumanBlob::operator==(const HumanBlob& human)
 		return false;
 }
 
-HumanBlob::~HumanBlob(){};
+void HumanBlob::addCenterPoint(Point p)
+{
+	centerPointList.push_back(p);
+	if (centerPointList.size() > 10)
+		centerPointList.erase(centerPointList.begin(), centerPointList.end() - 5);
+}

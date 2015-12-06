@@ -1,19 +1,37 @@
 #include "threadfornode.h"
-#include "messagepasser.h"
 
 ThreadForNode::ThreadForNode()
 {
-	msgPasser = new MessagePasser();
 	acknowledged = true;
-	connect(
-		this, SIGNAL(sendProfileToNode(ProfileTransferObj, ThreadForNode*)), 
-		msgPasser, SLOT(passMessage(ProfileTransferObj, ThreadForNode*))
-		);
+	connect(this, SIGNAL(flushProfile(QString)),
+		this, SLOT(flushAllPossible(QString)));
+	connect(this, SIGNAL(receiveProfile(HumanBlob*)),
+		this, SLOT(updateProfileList(HumanBlob*)));
 }
 
 ThreadForNode::~ThreadForNode()
 {
 
+}
+
+void ThreadForNode::flushAllPossible(QString pId)
+{
+	for (vector<HumanBlob>::iterator it = possibleProfileList.begin(); it != possibleProfileList.end(); it++)
+	{
+		if (it->profileID == pId.toStdString())
+		{
+			possibleProfileList.erase(it);
+			break;
+		}
+	}
+	for (vector<HumanBlob>::iterator it = trackingHumanBlobs.begin(); it != trackingHumanBlobs.end(); it++)
+	{
+		if (it->profileID == pId.toStdString())
+		{
+			trackingHumanBlobs.erase(it);
+			break;
+		}
+	}
 }
 
 void ThreadForNode::run()
@@ -23,9 +41,7 @@ void ThreadForNode::run()
 	VideoCapture cap(videoLink);
 	
 	//vector<graph::ExitPoint> exitPoints = currentNodePtr->exitPoints;
-	vector<models::Blob> blobs, unidentifiedBlobs;
-	vector<HumanBlob> humanBlobs, trackingHumanBlobs, possibleProfileList;
-	vector<MissingHumanBlob> missingHumanBlobs;
+	
 
 	//gpu::GpuMat Mog_Mask_g, Mog_MaskMorpho_g;
 
@@ -57,7 +73,6 @@ void ThreadForNode::run()
 		// ////////////////// //
 
 		blobs.clear();
-		unidentifiedBlobs.clear();
 		humanBlobs.clear();
 		blobsInCutoff.clear();
 
@@ -65,8 +80,7 @@ void ThreadForNode::run()
 
 		vector<Point> scaledCutoffRegions;
 		resizeContour(cutoffRegion, 1.0/2.200005, 1.0/2.00000, &scaledCutoffRegions);
-		/*if (nodeId == "C008")
-			__debugbreak();*/
+		
 		if (cutoffRegion.size() != 0)
 		{
 			for (int i = 0; i < cutoffRegion.size() - 1; i++)
@@ -74,6 +88,7 @@ void ThreadForNode::run()
 				line(frame, cutoffRegion[i], cutoffRegion[i + 1], cutOffRegionCol, 8);
 			}
 		}
+
 		// blob detection
 		if (_vProcessing.blobDetection(frameToBeRaped, pMOG2, fgMaskMOG2, &blobs, scaledCutoffRegions, &blobsInCutoff) == 0)
 		{
@@ -99,101 +114,65 @@ void ThreadForNode::run()
 		}
 
 		// scalling for gpu outputs
-		vector<Point> temp;
-		for (vector<models::Blob>::iterator i = blobs.begin(); i != blobs.end(); i++)
-		{
-			resizeContour(i->getContour(), 2.200005, 2.000000, &temp); // camnet dataset
-			//resizeContour(i->getContour(), 1.100005, 1.200000, &temp); // senior data set
-			i->setContour(temp);
-			temp.clear();
-		}
+		//vector<Point> temp;
+		//for (vector<RowBlob>::iterator i = blobs.begin(); i != blobs.end(); i++)
+		//{
+		//	resizeContour(i->getContour(), 2.200005, 2.000000, &temp); // camnet dataset
+		//	//resizeContour(i->getContour(), 1.100005, 1.200000, &temp); // senior data set
+		//	i->setContour(temp);
+		//	temp.clear();
+		//}
 		//mockFunction(&blobs, &trackingHumanBlobs, &cap);
 
-		if (trackingHumanBlobs.empty()) // blobs >>> unindentified
+		// detect humanblobs
+		_vProcessing.humanDetection(&blobs, &frameToBeRaped, &humanBlobs, &cap, this->videoLink, svmPointer, mysqlConnection);
+		
+
+		if (!trackingHumanBlobs.empty())
 		{
-			unidentifiedBlobs = blobs;
-		}
-		else
-		{
-			_vProcessing.dataAssociation(&blobs, &trackingHumanBlobs, &unidentifiedBlobs, &missingHumanBlobs);
+			//_vProcessing.dataAssociation(&humanBlobs, &trackingHumanBlobs, &missingHumanBlobs);
+			
+			// map detected human blobs with tracking list and update humanBlobs, trcking list and missing list
+			// when map to tracking one emit for update the central Profile list
+			dataAssociation(&cap);
 		}
 		
-		if (!(unidentifiedBlobs.empty())) // unindentified >>> human
-		{
-			// done through hardcoded function
-			_vProcessing.humanDetection(&unidentifiedBlobs, &frameToBeRaped, &humanBlobs, &cap, this->videoLink, svmPointer, mysqlConnection);
-		}
 		
 		if (!(humanBlobs.empty())) // human >>> trackinghuman
 		{
 			//_vProcessing.checkInProfiles(&humanBlobs, &possibleProfileList, &missingHumanBlobs, &trackingHumanBlobs);
+
+			// 
+			checkInProfiles();
 		}
 		
 		if (!(humanBlobs.empty()))
 		{
-			_vProcessing.initTrackingObject(&humanBlobs, &trackingHumanBlobs);
+			//_vProcessing.initTrackingObject(&humanBlobs, &trackingHumanBlobs);
+
+			for (vector<HumanBlob>::iterator i = humanBlobs.begin(); i != humanBlobs.end(); i++)
+			{
+				long timeapp = cap.get(CV_CAP_PROP_POS_MSEC);
+				i->profileID = nodeId + to_string(profileCount);
+				profileCount += 1;
+				emit sendProfileToMain(QString::fromStdString(this->nodeId), &(*i), timeapp);
+				trackingHumanBlobs.push_back(*i);
+			}
+
 		}
 		
 		if (!(trackingHumanBlobs.empty()))
 		{
 			_vProcessing.kalmanCorrectAndPredict(&trackingHumanBlobs);
-			//_vProcessing.informAdjecentNodes(&exitPoints, &trackingHumanBlobs);
+			updateMomentVector();
+
 			//_vProcessing.UpdateCentralProfiles(&trackingHumanBlobs);
 		}
 
 
-
-
-
-
-
-		//// get the moments
-		//vector<Moments> mu(human_blobs.size());
-		//for (size_t i = 0; i < human_blobs.size(); i++)
-		//{
-		//	mu[i] = moments(human_blobs[i], false);
-		//}
-
-		//// get the mass centers:
-		//vector<Point2f> mc(human_blobs.size());
-		//for (size_t i = 0; i < human_blobs.size(); i++)
-		//{
-		//	mc[i] = Point2f(mu[i].m10 / mu[i].m00, mu[i].m01 / mu[i].m00);
-		//}
-
-		//for (size_t i = 0; i < mc.size(); i++)
-		//{
-		//	int selectedContourId = getReleventContour(mc[i]);
-
-		//	Point measurePre(trackingObjectMap[selectedContourId].getLastPoint());
-		//	vector<Point> pointsVector = trackingObjectMap[selectedContourId].addCenterPoint(mc[i]);
-		//	Point measureCurrent(trackingObjectMap[selectedContourId].getLastPoint());
-
-		//	drawCross(frame, measureCurrent, Scalar(0, 255, 0), 5);
-
-		//	Mat prediction = trackingObjectMap[selectedContourId].kalmanPredict();
-		//	Point kalmanPredict(prediction.at<float>(0), prediction.at<float>(1));
-
-		//	Mat corrected = trackingObjectMap[selectedContourId].kalmanCorrect(mc[i]);
-		//	Point kalmanCorrected(corrected.at<float>(0), corrected.at<float>(1));
-		//	
-		//	drawCross(frame, kalmanPredict, Scalar(0, 0, 255), 5);
-		//	//drawCross(frame, kalmanCorrected, Scalar(0, 255, 255), 5);
-
-		//	stringstream lbl;
-		//	lbl << "Blob_" << selectedContourId;
-		//	putText(frame, lbl.str(), measureCurrent, FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 255), 2);
-
-		//	for (int i = pointsVector.size() - 1; i != 0; i--)
-		//	{
-		//		line(frame, pointsVector[i], pointsVector[i - 1], Scalar(200, 220, 80), 3);
-		//	}
-		//}
-
-
 		
-		
-		
+		// viewing // DO NOT touch - Kasun //
+
 		QImage outImage((uchar*)frame.data, frame.cols, frame.rows, frame.step, QImage::Format_RGB888);
 		outImage = outImage.scaled(this->releventUiLable->width(), this->releventUiLable->height(), Qt::KeepAspectRatio);
 		QPainter qpainter(&outImage);
@@ -210,8 +189,8 @@ void ThreadForNode::run()
 		Point rectEnd;
 
 
-		// change blob into TrackingHumanBlob when code is done //
-		for (vector<models::HumanBlob>::iterator i = trackingHumanBlobs.begin(); i != trackingHumanBlobs.end(); i++)
+		// final resizing and drawing //
+		for (vector<HumanBlob>::iterator i = trackingHumanBlobs.begin(); i != trackingHumanBlobs.end(); i++)
 		{
 			resizeContour(i->blob.getContour(), sx, sy, &cnt);
 			Rect br = boundingRect(cnt);
@@ -244,9 +223,16 @@ void ThreadForNode::run()
 	qDebug() << "finished.";
 }
 
-void ThreadForNode::updateProfileList(ProfileTransferObj profile)
+void ThreadForNode::updateProfileList(HumanBlob* profile)
 {
-
+	bool temp = false;
+	for (vector<HumanBlob>::iterator it = possibleProfileList.begin(); it != possibleProfileList.end(); it++)
+	{
+		if (it->profileID == profile->profileID)
+			temp = true;
+	}
+	if (!temp)
+		possibleProfileList.push_back(HumanBlob(*profile));
 }
 
 
@@ -290,11 +276,201 @@ void ThreadForNode::drawBlobsAndWriteInFrame(Mat frame, vector<vector<Point>>* b
 
 }
 
-void ThreadForNode::mockFunction(vector<models::Blob> *blobs, vector<models::HumanBlob> *trackingHumanBlobs, VideoCapture *cap)
+void ThreadForNode::updateMomentVector()
+{
+	//int framewidth = frame.cols;
+	//int frameheight = frame.rows;
+	for (vector<HumanBlob>::iterator i = trackingHumanBlobs.begin(); i != trackingHumanBlobs.end(); i++)
+	{
+		vector<Point> cpl = i->centerPointList;
+		if (cpl.size() == 1)
+		{
+			/*if ((framewidth / 2) > cpl[cpl.size() - 1].x)
+				i->dx = -100;
+			else
+				i->dx = 100;
+			if ((frameheight / 2) > cpl[cpl.size() - 1].y)
+				i->dy = -100;
+			else
+				i->dy = 100;*/
+			i->dx = 10;
+			i->dy = 10;
+		}
+		else
+		{
+			double xcml = 0;
+			double ycml = 0;
+			for (int i = cpl.size() - 1; i >= 1; i--)
+			{
+				if (i == cpl.size() - 5)
+					break;
+				xcml += (cpl[i].x - cpl[i - 1].x);
+				ycml += (cpl[i].y - cpl[i - 1].y);
+			}
+			i->dx = xcml / 4;
+			i->dy = ycml / 4;
+		}
+		i->predictedPoint = Point(cpl[cpl.size() - 1].x + i->dx, cpl[cpl.size() - 1].y + i->dy);
+	}
+}
+
+void ThreadForNode::informAdjecentNodes()
+{
+
+}
+
+void ThreadForNode::checkInProfiles()
+{
+	vector<size_t> tobedelHuman;
+	vector<size_t> tobeDel;
+	for (vector<HumanBlob>::iterator h = humanBlobs.begin(); h != humanBlobs.end(); h++)
+	{
+		for (vector<HumanBlob>::iterator p = possibleProfileList.begin(); p != possibleProfileList.end(); p++)
+		{
+			// by using FEATURE VECTORS
+			if ((*h) == (*p))
+			{
+				trackingHumanBlobs.push_back(HumanBlob(*p));
+
+				emit requestToFlushFromOthers(QString::fromStdString(nodeId), QString::fromStdString(p->profileID));
+
+				//possibleProfileList.erase(p);
+				//humanBlobs.erase(h);
+				tobeDel.push_back(p-possibleProfileList.begin());
+				tobedelHuman.push_back(h-humanBlobs.begin());
+				// send message to main profile set to flush from others
+			}
+		}
+	}
+	for (int i = 0; i < tobeDel.size(); i++)
+	{
+		auto hu = humanBlobs.begin() + tobedelHuman[i];
+		auto po = possibleProfileList.begin() + tobeDel[i];
+		humanBlobs.erase(hu);
+		possibleProfileList.erase(po);
+	}
+	tobeDel.clear();
+	tobedelHuman.clear();
+	for (vector<HumanBlob>::iterator h = humanBlobs.begin(); h != humanBlobs.end(); h++)
+	{
+		for (vector<MissingHumanBlob>::iterator m = missingHumanBlobs.begin(); m != missingHumanBlobs.end(); m++)
+		{
+			// by using FEATURE VECTORS
+			if ((*h) == m->humanBlob)
+			{
+				trackingHumanBlobs.push_back(MissingHumanBlob(*m).humanBlob);
+
+				emit requestToFlushFromOthers(QString::fromStdString(nodeId), QString::fromStdString(m->humanBlob.profileID));
+
+				//missingHumanBlobs.erase(m);
+				//humanBlobs.erase(h);
+				tobeDel.push_back(m - missingHumanBlobs.begin());
+				tobedelHuman.push_back(h - humanBlobs.begin());
+			}
+		}
+	}
+	for (int i = 0; i < tobeDel.size(); i++)
+	{
+		auto hu = humanBlobs.begin() + tobedelHuman[i];
+		auto mi = missingHumanBlobs.begin() + tobeDel[i];
+		humanBlobs.erase(hu);
+		missingHumanBlobs.erase(mi);
+	}
+	tobeDel.clear();
+	tobedelHuman.clear();
+
+	// update missing list
+	for (vector<MissingHumanBlob>::iterator m = missingHumanBlobs.begin(); m != missingHumanBlobs.end(); m++)
+	{
+		m->missedTime++;
+		if (m->missedTime > 10)
+		{
+			// give warning to main that one missed for long time
+			qDebug() << "profile : " << QString::fromStdString(m->humanBlob.profileID) << " MISSING from node [" << QString::fromStdString(nodeId);
+			//missingHumanBlobs.erase(m);
+			tobeDel.push_back(m - missingHumanBlobs.begin());
+		}
+	}
+	for (int i = 0; i < tobeDel.size(); i++)
+	{
+		auto mi = missingHumanBlobs.begin() + tobeDel[i];
+		missingHumanBlobs.erase(mi);
+	}
+	tobeDel.clear();
+}
+
+void ThreadForNode::dataAssociation(VideoCapture* cap)
+{
+
+	/*for (vector<RowBlob>::iterator i = blobs->begin(); i != blobs->end(); i++)
+	{
+	outUnidentifiedBlobs->push_back(*i);
+	}*/
+
+	vector<size_t> tobedeleted;
+	for (vector<HumanBlob>::iterator t = trackingHumanBlobs.begin(); t != trackingHumanBlobs.end(); t++)
+	{
+		double range = sqrt(pow(t->dx, 2) + pow(t->dy, 2));
+		if (range < 50.0)
+			range = 50.0;
+		bool foundMatch = false;
+		size_t n;
+		double minDis = 2 * range;
+		for (vector<HumanBlob>::iterator b = humanBlobs.begin(); b != humanBlobs.end(); b++)
+		{
+			Point detected = b->blob.getmassCenter();
+			double xdis = std::abs(t->predictedPoint.x - detected.x);
+			double ydis = std::abs(t->predictedPoint.y - detected.y);
+			double distPredDet = sqrt(pow(xdis, 2) + pow(ydis, 2));
+			if (distPredDet <= range && distPredDet < minDis)
+			{
+				minDis = distPredDet;
+				n = b - humanBlobs.begin();
+				foundMatch = true;
+			}
+		}
+		if (foundMatch)
+		{
+			auto it = humanBlobs.begin() + n;
+			t->blob.setContour(it->blob.getContour());
+			t->addCenterPoint(t->blob.getmassCenter());
+			emit sendLogCentralProfiles(QString::fromStdString(t->profileID), QString::fromStdString(nodeId), cap->get(CV_CAP_PROP_POS_MSEC));
+			humanBlobs.erase(it);
+		}
+		else
+		{
+			MissingHumanBlob mhb = MissingHumanBlob(*t);
+			mhb.missedTime += 1;
+			missingHumanBlobs.push_back(mhb);
+			graph::ExitPoint ePointHit;
+			if (isInExitPoint(t->centerPointList[t->centerPointList.size() - 1], &ePointHit) 
+				|| isInExitPoint(t->predictedPoint, &ePointHit))
+			{
+				HumanBlob* sendP = new HumanBlob(*t);
+				emit sendProfileToNode(sendP, QString::fromStdString(ePointHit.nodeId));
+			}
+			//trackingHumanBlobs.erase(t);
+			tobedeleted.push_back(t - trackingHumanBlobs.begin());
+		}
+	}
+
+	for (int i = 0; i < tobedeleted.size(); i++)
+	{
+		trackingHumanBlobs.erase(trackingHumanBlobs.begin() + tobedeleted[i]);
+	}
+}
+
+bool ThreadForNode::isInExitPoint(Point cp, graph::ExitPoint* ep)
+{
+	// dehan
+	return false;
+}
+
+void ThreadForNode::mockFunction(vector<RowBlob> *blobs, vector<HumanBlob> *trackingHumanBlobs, VideoCapture *cap)
 {
 	trackingHumanBlobs->clear();
 	vector<vector<Point>> blobContourVector;
-	for (vector<models::Blob>::iterator it = blobs->begin(); it != blobs->end(); it++)
+	for (vector<RowBlob>::iterator it = blobs->begin(); it != blobs->end(); it++)
 	{
 		blobContourVector.push_back(it->getContour());
 	}

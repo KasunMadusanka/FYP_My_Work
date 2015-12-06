@@ -19,13 +19,20 @@ public:
 
 	QWaitCondition isNotShown;
 	QMutex mutex;
+	QMutex muForProfileCreation;
 	SVM__Class svmCam;
 
 	public slots:
 	void recieveFrameFromThreads(QImage outImage, ThreadForNode* thread);
 	void finishedThreads();
 	void wakeForFrameCount();
+	void profileCreatedInNode(QString cameraNode, HumanBlob* humanBlob, long time);
+	void logCentralProfiles(QString pId, QString nId, long time);
+	void flushFromOthers(QString nId, QString pId);
+	void passProfile(HumanBlob* profile, QString sendingNodeId);
 	
+signals:
+
 
 private:
 	Ui::QtTestingClass ui;
@@ -38,6 +45,9 @@ private:
 	int threadCount = 0;
 	int globalFrameCount = 1;
 	vector<string> toBeStart;
+	vector<CentralProfile> centralProfileList;
+	map<string, vector<string>> centralNodeToHumanMap;
+	map<string, string> centralHumanToNodeMap;
 };
 
 #endif // QTTESTING_H

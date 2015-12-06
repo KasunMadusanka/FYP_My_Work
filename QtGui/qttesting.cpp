@@ -8,7 +8,9 @@ QtTesting::QtTesting(QWidget *parent)
 
 	graph::Graph _graph = graph::Graph();
 	_graph.initGraph();
+
 	svmCam.load_svm("camera6.xml");
+
 	MySQL_Driver *driver = sql::mysql::get_mysql_driver_instance();
 	Connection* mysqlConnection = driver->connect("tcp://127.0.0.1:3306", "root", "root");
 	ProfileHits* pLogger = new ProfileHits(mysqlConnection);
@@ -52,6 +54,12 @@ QtTesting::QtTesting(QWidget *parent)
 			this, SLOT(recieveFrameFromThreads(QImage, ThreadForNode*)));
 		connect(it->second, SIGNAL(sendFinishedToMain()),
 			this, SLOT(finishedThreads()));
+		connect(it->second, SIGNAL(sendProfileToMain(QString, HumanBlob*, long)),
+			this, SLOT(profileCreatedInNode(QString, HumanBlob*, long)));
+		connect(it->second, SIGNAL(sendLogCentralProfiles(QString, QString, long)),
+			this, SLOT(logCentralProfiles(QString, QString, long)));
+		connect(it->second, SIGNAL(sendProfileToNode(HumanBlob*, QString)),
+			this, SLOT(passProfile(HumanBlob*, QString)));
 	}
 
 	for (int i = 0; i < nodes.size(); i++)
@@ -106,6 +114,9 @@ void QtTesting::recieveFrameFromThreads(QImage outImage, ThreadForNode* thread)
 
 		globalFrameCount += 1;
 
+		/*if (globalFrameCount == 129)
+			__debugbreak();*/
+
 		wakeForFrameCount();
 
 		completedThreadMap.clear();
@@ -136,4 +147,56 @@ void QtTesting::wakeForFrameCount()
 	}
 
 	toBeStart = temp;
+}
+
+void QtTesting::profileCreatedInNode(QString cameraNode, HumanBlob* humanBlob, long time)
+{
+	muForProfileCreation.lock();
+
+	// match in central profiles whether already Ided.
+	CentralProfile cp;
+	cp.profileId = humanBlob->profileID;
+	cp.humanObj = *humanBlob;
+	ProfileLog pl;
+	pl.cameraNodeId = cameraNode.toStdString();
+	pl.timeAppeared = time;
+	cp.profileLogs.push_back(pl);
+
+	centralProfileList.push_back(cp);
+
+	centralNodeToHumanMap[cameraNode.toStdString()].push_back(humanBlob->profileID);
+	centralHumanToNodeMap[humanBlob->profileID] = cameraNode.toStdString();
+
+	muForProfileCreation.unlock();
+}
+
+void QtTesting::logCentralProfiles(QString pId, QString nId, long time)
+{
+	ProfileLog pl;
+	pl.cameraNodeId = nId.toStdString();
+	pl.timeAppeared = time;
+	for (int i = 0; i < centralProfileList.size(); i++)
+	{
+		if (centralProfileList[i].profileId == pId.toStdString())
+		{
+			centralProfileList[i].profileLogs.push_back(pl);
+		}
+	}
+}
+
+void QtTesting::flushFromOthers(QString nId, QString pId)
+{
+	for (map<string, ThreadForNode*>::iterator it = nodeToThreadMap.begin(); it != nodeToThreadMap.end(); it++)
+	{
+		if (it->first != nId.toStdString()) // omit original
+		{
+			emit it->second->flushProfile(pId);
+		}
+	}
+}
+
+void QtTesting::passProfile(HumanBlob* profile, QString sendingNodeId)
+{
+	ThreadForNode* threadToSend = nodeToThreadMap[sendingNodeId.toStdString()];
+	emit threadToSend->receiveProfile(profile);
 }

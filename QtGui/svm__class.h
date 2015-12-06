@@ -16,7 +16,7 @@
 #include <opencv2/ml/ml.hpp>
 
 
-#include "hogdescriptor_class.h";
+#include "hogdescriptor_class.h"
 
 using namespace cv; 
 using namespace std;

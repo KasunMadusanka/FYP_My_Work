@@ -90,7 +90,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Qt\Qt5.5.0\5.5\msvc2013_64\include;C:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release;C:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1;C:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver;C:\AdaptiveCameraNetworkPack\mysql-server-5.7\include;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv;C:\AdaptiveCameraNetworkPack\opencv\build\include;C:\AdaptiveCameraNetworkPack\Qt\include;C:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle;C:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer;C:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent;.\GeneratedFiles;.;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release;C:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1;C:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver;C:\AdaptiveCameraNetworkPack\mysql-server-5.7\include;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2;C:\AdaptiveCameraNetworkPack\opencv\build\include\opencv;C:\AdaptiveCameraNetworkPack\opencv\build\include;C:\AdaptiveCameraNetworkPack\Qt\include;C:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle;C:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer;C:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent;C:\Qt\Qt5.5.0\5.5\msvc2013_64\include;.\GeneratedFiles;.;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -99,7 +99,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib;C:\AdaptiveCameraNetworkPack\opencv\build\x64\vc12\lib;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn\Dynamic_Build\driver\Debug;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release;C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\AdaptiveCameraNetworkPack\opencv\build\x64\vc12\lib;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn\Dynamic_Build\driver\Debug;C:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release;C:\AdaptiveCameraNetworkPack\CamNetPlat\x64\Debug;C:\Qt\Qt5.5.0\5.5\msvc2013_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;DBAccessLayer.lib;CamFileHandle.lib;mysqlcppconn.lib;libmysql.lib;opencv_calib3d2411d.lib;opencv_contrib2411d.lib;opencv_core2411d.lib;opencv_features2d2411d.lib;opencv_flann2411d.lib;opencv_gpu2411d.lib;opencv_highgui2411d.lib;opencv_imgproc2411d.lib;opencv_legacy2411d.lib;opencv_ml2411d.lib;opencv_nonfree2411d.lib;opencv_objdetect2411d.lib;opencv_ocl2411d.lib;opencv_photo2411d.lib;opencv_stitching2411d.lib;opencv_superres2411d.lib;opencv_ts2411d.lib;opencv_video2411d.lib;opencv_videostab2411d.lib;HumanReIdent.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -149,11 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Blob.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_messagepasser.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="centralprofile.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_qttesting.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -161,10 +157,6 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_threadfornode.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_messagepasser.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_qttesting.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -176,17 +168,18 @@
     </ClCompile>
     <ClCompile Include="graph.cpp" />
     <ClCompile Include="hogdescriptor_class.cpp" />
-    <ClCompile Include="HumanBlob.cpp" />
+    <ClCompile Include="humanblob.cpp" />
     <ClCompile Include="HumanReIdentification.cpp" />
     <ClCompile Include="mainGUI.cpp" />
-    <ClCompile Include="messagepasser.cpp" />
-    <ClCompile Include="MissingHumanBlob.cpp" />
+    <ClCompile Include="missinghumanblob.cpp" />
     <ClCompile Include="node.cpp" />
-    <ClCompile Include="ProfileTransferObj.cpp" />
+    <ClCompile Include="possibleprofile.cpp" />
+    <ClCompile Include="profilelog.cpp" />
+    <ClCompile Include="profiletransferobj.cpp" />
     <ClCompile Include="qttesting.cpp" />
+    <ClCompile Include="rowblob.cpp" />
     <ClCompile Include="svm__class.cpp" />
     <ClCompile Include="threadfornode.cpp" />
-    <ClCompile Include="TrackingObject.cpp" />
     <ClCompile Include="VideoProcessing.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -221,28 +214,35 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_qtgui.h" />
-    <CustomBuild Include="messagepasser.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing messagepasser.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing messagepasser.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include" "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent" "-I.\GeneratedFiles" "-I." "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\QtWidgets"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing messagepasser.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Moc%27ing messagepasser.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    <CustomBuild Include="centralprofile.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
     </CustomBuild>
+    <ClInclude Include="GeneratedFiles\ui_qtgui.h" />
     <ClInclude Include="graph.h" />
     <ClInclude Include="hogdescriptor_class.h" />
-    <ClInclude Include="Models.h" />
     <CustomBuild Include="threadfornode.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing threadfornode.h...</Message>
@@ -251,7 +251,7 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing threadfornode.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include" "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent" "-I.\GeneratedFiles" "-I." "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\QtWidgets"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent" "-I.\GeneratedFiles" "-I." "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\QtWidgets" "-IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing threadfornode.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
@@ -269,7 +269,7 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Moc%27ing qttesting.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include" "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent" "-I.\GeneratedFiles" "-I." "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\QtWidgets"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\CamFileHandle" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\DBAccessLayer" "-IC:\AdaptiveCameraNetworkPack\CamNetPlat\HumanReIdent" "-I.\GeneratedFiles" "-I." "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\QtWidgets" "-IC:\Qt\Qt5.5.0\5.5\msvc2013_64\include"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing qttesting.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
@@ -279,7 +279,164 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB "-IC:\AdaptiveCameraNetworkPack\boost_1_57_0\boost_1_57_0" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\mysqlconn" "-IC:\AdaptiveCameraNetworkPack\MYSQLC++BUILDS\Mysql\libmysql\X64\Release" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1" "-IC:\AdaptiveCameraNetworkPack\mysql-connector-c++-1.1.1\driver" "-IC:\AdaptiveCameraNetworkPack\mysql-server-5.7\include" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv2" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include\opencv" "-IC:\AdaptiveCameraNetworkPack\opencv\build\include" "-IC:\AdaptiveCameraNetworkPack\Qt\include" "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
+    <CustomBuild Include="humanblob.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
+    <CustomBuild Include="missinghumanblob.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
+    <ClInclude Include="Models.h" />
+    <CustomBuild Include="possibleprofile.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
+    <CustomBuild Include="profilelog.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
+    <CustomBuild Include="profiletransferobj.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="resource.h" />
+    <CustomBuild Include="rowblob.h">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </CustomBuild>
     <ClInclude Include="svm__class.h" />
     <ClInclude Include="VideoProcessing.h" />
   </ItemGroup>
